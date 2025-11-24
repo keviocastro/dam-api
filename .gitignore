@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+tmp/
 
 # Build output
 dist/
@@ -29,3 +30,4 @@ dev.db-journal
 # OS generated files
 .DS_Store
 Thumbs.db
+/generated/prisma

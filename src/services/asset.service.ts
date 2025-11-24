@@ -1,7 +1,6 @@
-import { PrismaClient, Asset } from '@prisma/client';
+import { Asset } from '@prisma/client';
 import { IStorageService } from './storage/storage.interface';
-
-const prisma = new PrismaClient();
+import prisma from '../prisma/client';
 
 export const createAsset = async (
   file: Express.Multer.File,

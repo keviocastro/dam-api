@@ -14,65 +14,84 @@ This is a backend API for a Digital Asset Management system. It allows you to up
 
 ### Prerequisites
 
--   Node.js (v14 or later)
--   npm
--   A Google Cloud Platform account with a GCS bucket and service account credentials.
+-   Docker and Docker Compose
+-   A Google Cloud Platform account with a GCS bucket and service account credentials (optional)
 
-### Installation
+### Quick Start with Docker
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
-    cd dam-api
+    git clone git@github.com:keviocastro/dam-api.git
+    cd dam
     ```
 
-2.  **Install dependencies:**
+2.  **Set up environment variables:**
     ```bash
-    npm install
+    cp .env.example .env
     ```
+    Edit `.env` if needed (default values work for Docker setup).
 
-3.  **Set up environment variables:**
-    -   Copy the `.env.example` file to a new file named `.env`:
-        ```bash
-        cp .env.example .env
-        ```
-    -   Edit the `.env` file with your specific configuration:
-        -   `GCS_BUCKET_NAME`: Your Google Cloud Storage bucket name.
-        -   `GCS_KEYFILE`: The path to your GCS service account key file (JSON).
-        -   `DATABASE_URL`: The connection string for your database. Defaults to a local SQLite database.
-        -   `PORT`: The port the server will run on.
-
-4.  **Apply database migrations:**
-    ```bash
-    npx prisma migrate dev
-    ```
-
-5.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-
-    The server will be running on the port specified in your `.env` file (default: 3000).
-
-## Running with Docker
-
-You can also run the application using Docker and Docker Compose.
-
-1.  **Set up environment variables:**
-    -   Make sure you have an `.env` file with the correct configuration (see above).
-
-2.  **Build and run the containers:**
+3.  **Start the application:**
     ```bash
     docker-compose up -d --build
     ```
 
-3.  **Apply database migrations:**
-    -   Once the containers are running, you need to apply the database migrations.
+4.  **Run database migrations:**
     ```bash
-    docker-compose exec app npx prisma migrate dev
+    docker-compose exec app npx prisma migrate deploy
     ```
 
-The server will be running on the port specified in your `.env` file (default: 3000).
+5.  **Access the API:**
+    - API: http://localhost:3000
+    - PostgreSQL: localhost:5432
+
+### Local Development (without Docker)
+
+If you prefer to run the app locally:
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+2.  **Start PostgreSQL with Docker:**
+    ```bash
+    docker-compose up -d db
+    ```
+
+3.  **Run migrations:**
+    ```bash
+    npx prisma migrate dev
+    ```
+
+4.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+### Useful Commands
+
+**View logs:**
+```bash
+docker-compose logs -f app
+```
+
+**Stop the application:**
+```bash
+docker-compose down
+```
+
+**Reset database:**
+```bash
+docker-compose down -v
+docker-compose up -d --build
+docker-compose exec app npx prisma migrate deploy
+```
+
+**Access PostgreSQL:**
+```bash
+docker-compose exec db psql -U postgres -d dam
+```
 
 ## API Endpoints
 
