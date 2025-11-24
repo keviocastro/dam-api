@@ -1,6 +1,6 @@
-import { Asset } from '@prisma/client';
+import { Asset } from '../generated/prisma/index.js';
 import { IStorageService } from './storage/storage.interface';
-import prisma from '../prisma/client';
+import prisma from '../prisma/client.js';
 
 export const createAsset = async (
   file: Express.Multer.File,
