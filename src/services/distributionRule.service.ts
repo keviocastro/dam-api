@@ -1,4 +1,4 @@
-import { DistributionRule } from '../generated/prisma/index.js';
+import { DistributionRule } from '../generated/prisma/client.js';
 import prisma from '../prisma/client.js';
 
 export interface CreateRuleData {

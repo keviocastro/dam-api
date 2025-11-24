@@ -32,4 +32,10 @@ export class GoogleCloudStorageService implements IStorageService {
       blobStream.end(file.buffer);
     });
   }
+
+  async delete(storagePath: string): Promise<void> {
+    const bucket = this.storage.bucket(this.bucketName);
+    const file = bucket.file(storagePath);
+    await file.delete();
+  }
 }

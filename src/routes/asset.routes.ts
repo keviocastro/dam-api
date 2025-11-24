@@ -7,6 +7,43 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 /**
  * @openapi
+ * /assets/active:
+ *   get:
+ *     summary: Get all active assets based on distribution rules
+ *     tags: [Assets]
+ *     parameters:
+ *       - in: header
+ *         name: x-location
+ *         schema:
+ *           type: string
+ *         description: Location for filtering (country, region, or city)
+ *         example: Brazil
+ *       - in: header
+ *         name: x-device
+ *         schema:
+ *           type: string
+ *         description: Device type for filtering
+ *         example: mobile
+ *     responses:
+ *       200:
+ *         description: List of active assets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Asset'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get('/active', assetController.getActiveAssets);
+
+/**
+ * @openapi
  * /assets:
  *   post:
  *     summary: Upload a new asset
@@ -84,8 +121,80 @@ router.post('/', upload.single('file'), assetController.uploadAsset);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *   put:
+ *     summary: Update an asset
+ *     tags: [Assets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Asset ID
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Optional new file to replace the existing one
+ *               redirectUrl:
+ *                 type: string
+ *                 description: Optional redirect URL
+ *               ruleId:
+ *                 type: string
+ *                 description: Optional distribution rule ID
+ *     responses:
+ *       200:
+ *         description: Asset updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Asset'
+ *       404:
+ *         description: Asset not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *   delete:
+ *     summary: Delete an asset
+ *     tags: [Assets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Asset ID
+ *     responses:
+ *       204:
+ *         description: Asset deleted successfully
+ *       404:
+ *         description: Asset not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get('/:id', assetController.getAsset);
+router.put('/:id', upload.single('file'), assetController.updateAsset);
+router.delete('/:id', assetController.deleteAsset);
 
 /**
  * @openapi

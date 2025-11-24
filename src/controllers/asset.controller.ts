@@ -29,6 +29,18 @@ export const getAsset = async (req: Request, res: Response) => {
   }
 };
 
+export const getActiveAssets = async (req: Request, res: Response) => {
+  try {
+    const location = req.headers['x-location'] as string | undefined;
+    const device = req.headers['x-device'] as string | undefined;
+
+    const assets = await assetService.getActiveAssets(location, device);
+    res.status(200).json(assets);
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving active assets.' });
+  }
+};
+
 export const trackAssetClick = async (req: Request, res: Response) => {
   try {
     const asset = await assetService.trackClick(req.params.id, req.body);
@@ -51,5 +63,38 @@ export const getAssetStatistics = async (req: Request, res: Response) => {
     res.status(200).json(stats);
   } catch (error) {
     res.status(500).send('Error retrieving statistics.');
+  }
+};
+
+export const updateAsset = async (req: Request, res: Response) => {
+  try {
+    const asset = await assetService.updateAsset(
+      req.params.id,
+      req.body,
+      req.file,
+      req.file ? storageService : undefined
+    );
+
+    if (!asset) {
+      return res.status(404).send('Asset not found.');
+    }
+
+    res.status(200).json(asset);
+  } catch (error) {
+    res.status(500).send('Error updating asset.');
+  }
+};
+
+export const deleteAsset = async (req: Request, res: Response) => {
+  try {
+    const deleted = await assetService.deleteAsset(req.params.id, storageService);
+
+    if (!deleted) {
+      return res.status(404).send('Asset not found.');
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).send('Error deleting asset.');
   }
 };

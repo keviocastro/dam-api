@@ -84,17 +84,49 @@ The documentation provides:
 
 ### Example Usage
 
-#### Creating a Distribution Rule
+#### Creating Distribution Rules
 
+The `config` object structure varies based on the rule `type`:
+
+**DATE_RANGE Rule** - Defines a time period:
 ```bash
 curl -X POST http://localhost:3000/distribution-rules \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Weekend Campaign",
+    "name": "Holiday Campaign",
     "type": "DATE_RANGE",
     "config": {
       "startDate": "2024-12-01T00:00:00Z",
       "endDate": "2024-12-31T23:59:59Z"
+    },
+    "isActive": true
+  }'
+```
+
+**LOCATION Rule** - Defines geographic targeting:
+```bash
+curl -X POST http://localhost:3000/distribution-rules \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Brazil Campaign",
+    "type": "LOCATION",
+    "config": {
+      "countries": ["Brazil"],
+      "cities": ["São Paulo", "Rio de Janeiro"]
+    },
+    "isActive": true
+  }'
+```
+
+**DEVICE Rule** - Defines device type targeting:
+```bash
+curl -X POST http://localhost:3000/distribution-rules \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Mobile Only",
+    "type": "DEVICE",
+    "config": {
+      "types": ["mobile", "tablet"]
     },
     "isActive": true
   }'
