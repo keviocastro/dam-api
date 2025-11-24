@@ -1,7 +1,7 @@
 import { Asset } from '../generated/prisma/client.js';
 import { IStorageService } from './storage/storage.interface';
 import prisma from '../prisma/client.js';
-import { validateRule } from './ruleValidator.service.js';
+import { assetCacheService } from './cache/assetCache.service.js';
 
 export const createAsset = async (
   file: Express.Multer.File,
@@ -10,7 +10,7 @@ export const createAsset = async (
 ): Promise<Asset> => {
   const { storagePath, publicUrl } = await storageService.upload(file);
 
-  return prisma.asset.create({
+  const asset = await prisma.asset.create({
     data: {
       filename: file.originalname,
       mimetype: file.mimetype,
@@ -21,6 +21,10 @@ export const createAsset = async (
       ruleId: data.ruleId,
     },
   });
+
+  await assetCacheService.invalidateCache();
+
+  return asset;
 };
 
 export const getAssetById = async (id: string): Promise<Asset | null> => {
@@ -34,17 +38,7 @@ export const getActiveAssets = async (
   location?: string,
   device?: string
 ): Promise<Asset[]> => {
-  const assets = await prisma.asset.findMany({
-    include: { rule: true }
-  });
-
-  return assets.filter(asset => {
-    if (!asset.rule) {
-      return true;
-    }
-
-    return validateRule(asset.rule, { location, device });
-  });
+  return assetCacheService.getActiveAssets(location, device);
 };
 
 export const trackClick = async (
@@ -94,7 +88,7 @@ export const updateAsset = async (
     publicUrl = uploadResult.publicUrl;
   }
 
-  return prisma.asset.update({
+  const updatedAsset = await prisma.asset.update({
     where: { id },
     data: {
       ...(file && { storagePath, publicUrl }),
@@ -102,6 +96,10 @@ export const updateAsset = async (
       ...(data.ruleId !== undefined && { ruleId: data.ruleId }),
     },
   });
+
+  await assetCacheService.invalidateCache();
+
+  return updatedAsset;
 };
 
 export const deleteAsset = async (
@@ -116,5 +114,8 @@ export const deleteAsset = async (
 
   await storageService.delete(asset.storagePath);
   await prisma.asset.delete({ where: { id } });
+
+  await assetCacheService.invalidateCache();
+
   return true;
 };

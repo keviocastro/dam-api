@@ -10,6 +10,7 @@ This is a backend API for a Digital Asset Management system. It allows you to up
     -   Location-based targeting
     -   Device-specific delivery
     -   Active/inactive rule states
+-   **Redis Cache**: High-performance caching for active assets queries with automatic invalidation.
 -   **Click Tracking**: Record clicks on assets, including user ID and custom metadata.
 -   **Redirection**: Redirect users to a specified URL after a click is tracked.
 -   **Analytics**: Get basic click statistics for each asset.
@@ -20,6 +21,8 @@ This is a backend API for a Digital Asset Management system. It allows you to up
 
 -   Node.js (v20 or later)
 -   PostgreSQL
+-   Redis
+-   Docker and Docker Compose (optional, for local development)
 -   A Google Cloud Platform account with a GCS bucket and service account credentials (optional)
 
 ### Installation
@@ -35,23 +38,29 @@ This is a backend API for a Digital Asset Management system. It allows you to up
     npm install
     ```
 
-3.  **Set up environment variables:**
+3.  **Start PostgreSQL and Redis (using Docker):**
+    ```bash
+    docker-compose up -d
+    ```
+    Or install PostgreSQL and Redis manually on your system.
+
+4.  **Set up environment variables:**
     ```bash
     cp .env.example .env
     ```
-    Edit `.env` with your PostgreSQL connection string.
+    Edit `.env` with your PostgreSQL and Redis connection strings.
 
-4.  **Run database migrations:**
+5.  **Run database migrations:**
     ```bash
     npx prisma migrate dev
     ```
 
-5.  **Start the development server:**
+6.  **Start the development server:**
     ```bash
     npm run dev
     ```
 
-6.  **Access the API:**
+7.  **Access the API:**
     - API: http://localhost:3000
     - Interactive API Documentation: http://localhost:3000/api-docs
 
@@ -141,14 +150,41 @@ curl -X POST http://localhost:3000/assets \
   -F "ruleId=clxxx123456"
 ```
 
+## Cache and Performance
+
+The API uses Redis for caching active assets queries to ensure high performance and scalability:
+
+-   **Cache Strategy**: Active assets are cached based on `location` and `device` parameters
+-   **TTL**: Cache entries expire after 5 minutes (300 seconds)
+-   **Automatic Invalidation**: Cache is automatically cleared when:
+    -   Assets are created, updated, or deleted
+    -   Distribution rules are created, updated, or deleted
+-   **Fallback**: If Redis is unavailable, the API will still work by querying the database directly
+
+### Cache Configuration
+
+Set the Redis connection URL in your `.env` file:
+
+```bash
+REDIS_URL="redis://localhost:6379"
+```
+
+For production, use a managed Redis service like:
+-   AWS ElastiCache
+-   Google Cloud Memorystore
+-   Redis Cloud
+-   Azure Cache for Redis
+
 ## Project Structure
 
 -   `src/`: The main source code directory.
     -   `controllers/`: Handles incoming API requests and sends responses.
     -   `services/`: Contains the core business logic.
         -   `storage/`: A modular service for interacting with cloud storage providers.
+        -   `cache/`: Redis-based caching service for performance optimization.
     -   `routes/`: Defines the API routes.
     -   `prisma/`: Contains the Prisma schema and migrations.
+-   `docker-compose.yml`: Docker Compose configuration for PostgreSQL and Redis.
 -   `uploads/`: A directory for local file uploads (not used in the GCS implementation).
 
 ## Contributing
