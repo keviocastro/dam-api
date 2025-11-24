@@ -49,27 +49,26 @@ This is a backend API for a Digital Asset Management system. It allows you to up
 
 6.  **Access the API:**
     - API: http://localhost:3000
+    - Interactive API Documentation: http://localhost:3000/api-docs
 
-## API Endpoints
+## API Documentation
 
--   **`POST /assets`**: Upload a new asset.
-    -   **Body (form-data):**
-        -   `file`: The image or video file.
-        -   `redirectUrl` (optional): The URL to redirect to on click.
-        -   `startDate` (optional): The date the asset becomes available (ISO 8601 format).
-        -   `endDate` (optional): The date the asset expires (ISO 8601 format).
+The API includes interactive Swagger documentation. After starting the server, visit:
 
--   **`GET /assets/:id`**: Retrieve an asset.
-    -   This will redirect to the public URL of the asset if it's currently available.
+**http://localhost:3000/api-docs**
 
--   **`POST /assets/:id/track`**: Track a click on an asset.
-    -   **Body (JSON):**
-        -   `userId`: The ID of the user who clicked.
-        -   `metadata` (optional): Any additional JSON data to store with the click.
-    -   This will redirect to the asset's `redirectUrl` if one is configured.
+The documentation provides:
+- Complete API endpoint descriptions
+- Request/response schemas
+- Interactive testing interface
+- Example requests and responses
 
--   **`GET /assets/:id/stats`**: Get click statistics for an asset.
-    -   Returns a JSON object with the total number of clicks.
+### Available Endpoints
+
+-   **`POST /assets`**: Upload a new asset
+-   **`GET /assets/:id`**: Retrieve an asset
+-   **`POST /assets/:id/track`**: Track a click on an asset
+-   **`GET /assets/:id/stats`**: Get click statistics for an asset
 
 ## Project Structure
 
