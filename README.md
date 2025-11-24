@@ -14,10 +14,11 @@ This is a backend API for a Digital Asset Management system. It allows you to up
 
 ### Prerequisites
 
--   Docker and Docker Compose
+-   Node.js (v20 or later)
+-   PostgreSQL
 -   A Google Cloud Platform account with a GCS bucket and service account credentials (optional)
 
-### Quick Start with Docker
+### Installation
 
 1.  **Clone the repository:**
     ```bash
@@ -25,73 +26,29 @@ This is a backend API for a Digital Asset Management system. It allows you to up
     cd dam
     ```
 
-2.  **Set up environment variables:**
-    ```bash
-    cp .env.example .env
-    ```
-    Edit `.env` if needed (default values work for Docker setup).
-
-3.  **Start the application:**
-    ```bash
-    docker-compose up -d --build
-    ```
-
-4.  **Run database migrations:**
-    ```bash
-    docker-compose exec app npx prisma migrate deploy
-    ```
-
-5.  **Access the API:**
-    - API: http://localhost:3000
-    - PostgreSQL: localhost:5432
-
-### Local Development (without Docker)
-
-If you prefer to run the app locally:
-
-1.  **Install dependencies:**
+2.  **Install dependencies:**
     ```bash
     npm install
     ```
 
-2.  **Start PostgreSQL with Docker:**
+3.  **Set up environment variables:**
     ```bash
-    docker-compose up -d db
+    cp .env.example .env
     ```
+    Edit `.env` with your PostgreSQL connection string.
 
-3.  **Run migrations:**
+4.  **Run database migrations:**
     ```bash
     npx prisma migrate dev
     ```
 
-4.  **Start the development server:**
+5.  **Start the development server:**
     ```bash
     npm run dev
     ```
 
-### Useful Commands
-
-**View logs:**
-```bash
-docker-compose logs -f app
-```
-
-**Stop the application:**
-```bash
-docker-compose down
-```
-
-**Reset database:**
-```bash
-docker-compose down -v
-docker-compose up -d --build
-docker-compose exec app npx prisma migrate deploy
-```
-
-**Access PostgreSQL:**
-```bash
-docker-compose exec db psql -U postgres -d dam
-```
+6.  **Access the API:**
+    - API: http://localhost:3000
 
 ## API Endpoints
 
