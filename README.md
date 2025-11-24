@@ -5,7 +5,11 @@ This is a backend API for a Digital Asset Management system. It allows you to up
 ## Features
 
 -   **File Uploads**: Upload images and videos to a configurable cloud storage provider.
--   **Distribution Control**: Define a start and end date for asset availability.
+-   **Distribution Rules**: Create and manage distribution rules with support for:
+    -   Date range restrictions
+    -   Location-based targeting
+    -   Device-specific delivery
+    -   Active/inactive rule states
 -   **Click Tracking**: Record clicks on assets, including user ID and custom metadata.
 -   **Redirection**: Redirect users to a specified URL after a click is tracked.
 -   **Analytics**: Get basic click statistics for each asset.
@@ -65,10 +69,45 @@ The documentation provides:
 
 ### Available Endpoints
 
--   **`POST /assets`**: Upload a new asset
+#### Assets
+-   **`POST /assets`**: Upload a new asset (optionally with a distribution rule)
 -   **`GET /assets/:id`**: Retrieve an asset
 -   **`POST /assets/:id/track`**: Track a click on an asset
 -   **`GET /assets/:id/stats`**: Get click statistics for an asset
+
+#### Distribution Rules
+-   **`POST /distribution-rules`**: Create a new distribution rule
+-   **`GET /distribution-rules`**: Get all distribution rules
+-   **`GET /distribution-rules/:id`**: Get a specific distribution rule
+-   **`PUT /distribution-rules/:id`**: Update a distribution rule
+-   **`DELETE /distribution-rules/:id`**: Delete a distribution rule
+
+### Example Usage
+
+#### Creating a Distribution Rule
+
+```bash
+curl -X POST http://localhost:3000/distribution-rules \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Weekend Campaign",
+    "type": "DATE_RANGE",
+    "config": {
+      "startDate": "2024-12-01T00:00:00Z",
+      "endDate": "2024-12-31T23:59:59Z"
+    },
+    "isActive": true
+  }'
+```
+
+#### Uploading an Asset with a Rule
+
+```bash
+curl -X POST http://localhost:3000/assets \
+  -F "file=@image.jpg" \
+  -F "redirectUrl=https://example.com" \
+  -F "ruleId=clxxx123456"
+```
 
 ## Project Structure
 

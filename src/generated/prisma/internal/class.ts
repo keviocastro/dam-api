@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.0",
   "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Asset {\n  id          String    @id @default(cuid())\n  filename    String\n  mimetype    String\n  size        Int\n  storagePath String    @unique\n  publicUrl   String    @unique\n  redirectUrl String?\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime  @updatedAt\n  clicks      Click[]\n}\n\nmodel Click {\n  id        String   @id @default(cuid())\n  asset     Asset    @relation(fields: [assetId], references: [id])\n  assetId   String\n  userId    String\n  metadata  String?\n  clickedAt DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Asset {\n  id          String            @id @default(cuid())\n  filename    String\n  mimetype    String\n  size        Int\n  storagePath String            @unique\n  publicUrl   String            @unique\n  redirectUrl String?\n  ruleId      String?\n  rule        DistributionRule? @relation(fields: [ruleId], references: [id])\n  createdAt   DateTime          @default(now())\n  updatedAt   DateTime          @updatedAt\n  clicks      Click[]\n}\n\nmodel Click {\n  id        String   @id @default(cuid())\n  asset     Asset    @relation(fields: [assetId], references: [id])\n  assetId   String\n  userId    String\n  metadata  String?\n  clickedAt DateTime @default(now())\n}\n\nenum RuleType {\n  DATE_RANGE\n  LOCATION\n  DEVICE\n}\n\nmodel DistributionRule {\n  id        String   @id @default(cuid())\n  name      String\n  type      RuleType\n  config    String\n  isActive  Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  assets    Asset[]\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Asset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filename\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mimetype\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"storagePath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"redirectUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clicks\",\"kind\":\"object\",\"type\":\"Click\",\"relationName\":\"AssetToClick\"}],\"dbName\":null},\"Click\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"asset\",\"kind\":\"object\",\"type\":\"Asset\",\"relationName\":\"AssetToClick\"},{\"name\":\"assetId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"clickedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Asset\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filename\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mimetype\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"storagePath\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"redirectUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ruleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rule\",\"kind\":\"object\",\"type\":\"DistributionRule\",\"relationName\":\"AssetToDistributionRule\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clicks\",\"kind\":\"object\",\"type\":\"Click\",\"relationName\":\"AssetToClick\"}],\"dbName\":null},\"Click\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"asset\",\"kind\":\"object\",\"type\":\"Asset\",\"relationName\":\"AssetToClick\"},{\"name\":\"assetId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"clickedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"DistributionRule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"RuleType\"},{\"name\":\"config\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"assets\",\"kind\":\"object\",\"type\":\"Asset\",\"relationName\":\"AssetToDistributionRule\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -193,6 +193,16 @@ export interface PrismaClient<
     * ```
     */
   get click(): Prisma.ClickDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.distributionRule`: Exposes CRUD operations for the **DistributionRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DistributionRules
+    * const distributionRules = await prisma.distributionRule.findMany()
+    * ```
+    */
+  get distributionRule(): Prisma.DistributionRuleDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

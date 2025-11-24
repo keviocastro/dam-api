@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Asset: 'Asset',
-  Click: 'Click'
+  Click: 'Click',
+  DistributionRule: 'DistributionRule'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,8 +80,7 @@ export const AssetScalarFieldEnum = {
   storagePath: 'storagePath',
   publicUrl: 'publicUrl',
   redirectUrl: 'redirectUrl',
-  startDate: 'startDate',
-  endDate: 'endDate',
+  ruleId: 'ruleId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -97,6 +97,19 @@ export const ClickScalarFieldEnum = {
 } as const
 
 export type ClickScalarFieldEnum = (typeof ClickScalarFieldEnum)[keyof typeof ClickScalarFieldEnum]
+
+
+export const DistributionRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  config: 'config',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionRuleScalarFieldEnum = (typeof DistributionRuleScalarFieldEnum)[keyof typeof DistributionRuleScalarFieldEnum]
 
 
 export const SortOrder = {

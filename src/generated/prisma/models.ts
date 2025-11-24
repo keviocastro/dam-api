@@ -10,4 +10,5 @@
  */
 export type * from './models/Asset.js'
 export type * from './models/Click.js'
+export type * from './models/DistributionRule.js'
 export type * from './commonInputTypes.js'

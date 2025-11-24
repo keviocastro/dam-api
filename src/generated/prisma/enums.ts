@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const RuleType = {
+  DATE_RANGE: 'DATE_RANGE',
+  LOCATION: 'LOCATION',
+  DEVICE: 'DEVICE'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type RuleType = (typeof RuleType)[keyof typeof RuleType]

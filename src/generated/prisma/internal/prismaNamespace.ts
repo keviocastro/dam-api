@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Asset: 'Asset',
-  Click: 'Click'
+  Click: 'Click',
+  DistributionRule: 'DistributionRule'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "asset" | "click"
+    modelProps: "asset" | "click" | "distributionRule"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DistributionRule: {
+      payload: Prisma.$DistributionRulePayload<ExtArgs>
+      fields: Prisma.DistributionRuleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DistributionRuleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DistributionRuleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        findFirst: {
+          args: Prisma.DistributionRuleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DistributionRuleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        findMany: {
+          args: Prisma.DistributionRuleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>[]
+        }
+        create: {
+          args: Prisma.DistributionRuleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        createMany: {
+          args: Prisma.DistributionRuleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DistributionRuleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>[]
+        }
+        delete: {
+          args: Prisma.DistributionRuleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        update: {
+          args: Prisma.DistributionRuleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        deleteMany: {
+          args: Prisma.DistributionRuleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DistributionRuleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DistributionRuleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>[]
+        }
+        upsert: {
+          args: Prisma.DistributionRuleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistributionRulePayload>
+        }
+        aggregate: {
+          args: Prisma.DistributionRuleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDistributionRule>
+        }
+        groupBy: {
+          args: Prisma.DistributionRuleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionRuleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DistributionRuleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistributionRuleCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -600,8 +675,7 @@ export const AssetScalarFieldEnum = {
   storagePath: 'storagePath',
   publicUrl: 'publicUrl',
   redirectUrl: 'redirectUrl',
-  startDate: 'startDate',
-  endDate: 'endDate',
+  ruleId: 'ruleId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -618,6 +692,19 @@ export const ClickScalarFieldEnum = {
 } as const
 
 export type ClickScalarFieldEnum = (typeof ClickScalarFieldEnum)[keyof typeof ClickScalarFieldEnum]
+
+
+export const DistributionRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  config: 'config',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistributionRuleScalarFieldEnum = (typeof DistributionRuleScalarFieldEnum)[keyof typeof DistributionRuleScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -689,6 +776,27 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RuleType'
+ */
+export type EnumRuleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RuleType'>
+    
+
+
+/**
+ * Reference to a field of type 'RuleType[]'
+ */
+export type ListEnumRuleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RuleType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -786,6 +894,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   asset?: Prisma.AssetOmit
   click?: Prisma.ClickOmit
+  distributionRule?: Prisma.DistributionRuleOmit
 }
 
 /* Types for Logging */

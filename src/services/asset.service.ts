@@ -4,7 +4,7 @@ import prisma from '../prisma/client.js';
 
 export const createAsset = async (
   file: Express.Multer.File,
-  data: { redirectUrl?: string; startDate?: string; endDate?: string },
+  data: { redirectUrl?: string; ruleId?: string },
   storageService: IStorageService
 ): Promise<Asset> => {
   const { storagePath, publicUrl } = await storageService.upload(file);
@@ -17,28 +17,16 @@ export const createAsset = async (
       storagePath,
       publicUrl,
       redirectUrl: data.redirectUrl,
-      startDate: data.startDate ? new Date(data.startDate) : undefined,
-      endDate: data.endDate ? new Date(data.endDate) : undefined,
+      ruleId: data.ruleId,
     },
   });
 };
 
 export const getAssetById = async (id: string): Promise<Asset | null> => {
-  const asset = await prisma.asset.findUnique({ where: { id } });
-
-  if (!asset) {
-    return null;
-  }
-
-  const now = new Date();
-  if (asset.startDate && asset.startDate > now) {
-    return null;
-  }
-  if (asset.endDate && asset.endDate < now) {
-    return null;
-  }
-
-  return asset;
+  return prisma.asset.findUnique({
+    where: { id },
+    include: { rule: true }
+  });
 };
 
 export const trackClick = async (

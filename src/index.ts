@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import assetRoutes from './routes/asset.routes.js';
+import distributionRuleRoutes from './routes/distributionRule.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 }));
 
 app.use('/assets', assetRoutes);
+app.use('/distribution-rules', distributionRuleRoutes);
 
 app.get('/', (req, res) => {
   res.redirect('/api-docs');

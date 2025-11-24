@@ -49,19 +49,10 @@ const options: swaggerJsdoc.Options = {
               nullable: true,
               description: 'Optional redirect URL',
             },
-            startDate: {
+            ruleId: {
               type: 'string',
-              format: 'date-time',
               nullable: true,
-              default: null,
-              description: 'Asset availability start date',
-            },
-            endDate: {
-              type: 'string',
-              format: 'date-time',
-              nullable: true,
-              default: null,
-              description: 'Asset availability end date',
+              description: 'Distribution rule ID',
             },
             createdAt: {
               type: 'string',
@@ -91,14 +82,50 @@ const options: swaggerJsdoc.Options = {
               description: 'User who clicked',
             },
             metadata: {
-              type: 'string',
+              type: 'object',
               nullable: true,
-              description: 'Additional metadata',
+              description: 'Additional metadata as JSON object',
             },
             clickedAt: {
               type: 'string',
               format: 'date-time',
               description: 'Click timestamp',
+            },
+          },
+        },
+        DistributionRule: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'string',
+              description: 'Unique identifier',
+            },
+            name: {
+              type: 'string',
+              description: 'Rule name',
+            },
+            type: {
+              type: 'string',
+              enum: ['DATE_RANGE', 'LOCATION', 'DEVICE'],
+              description: 'Rule type',
+            },
+            config: {
+              type: 'string',
+              description: 'Rule configuration as JSON string',
+            },
+            isActive: {
+              type: 'boolean',
+              description: 'Whether the rule is active',
+            },
+            createdAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Creation timestamp',
+            },
+            updatedAt: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Last update timestamp',
             },
           },
         },

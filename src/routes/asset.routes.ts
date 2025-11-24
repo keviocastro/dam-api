@@ -27,14 +27,9 @@ const upload = multer({ storage: multer.memoryStorage() });
  *               redirectUrl:
  *                 type: string
  *                 description: Optional redirect URL
- *               startDate:
+ *               ruleId:
  *                 type: string
- *                 format: date-time
- *                 description: Asset availability start date
- *               endDate:
- *                 type: string
- *                 format: date-time
- *                 description: Asset availability end date
+ *                 description: Optional distribution rule ID
  *     responses:
  *       201:
  *         description: Asset uploaded successfully
@@ -118,8 +113,9 @@ router.get('/:id', assetController.getAsset);
  *                 type: string
  *                 description: User ID who clicked
  *               metadata:
- *                 type: string
- *                 description: Optional metadata
+ *                 type: object
+ *                 description: Optional metadata as JSON object
+ *                 example: { "source": "email", "campaign": "summer2024" }
  *     responses:
  *       201:
  *         description: Click tracked successfully

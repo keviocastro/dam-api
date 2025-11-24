@@ -42,8 +42,7 @@ export type AssetMinAggregateOutputType = {
   storagePath: string | null
   publicUrl: string | null
   redirectUrl: string | null
-  startDate: Date | null
-  endDate: Date | null
+  ruleId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,8 +55,7 @@ export type AssetMaxAggregateOutputType = {
   storagePath: string | null
   publicUrl: string | null
   redirectUrl: string | null
-  startDate: Date | null
-  endDate: Date | null
+  ruleId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,8 +68,7 @@ export type AssetCountAggregateOutputType = {
   storagePath: number
   publicUrl: number
   redirectUrl: number
-  startDate: number
-  endDate: number
+  ruleId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -94,8 +91,7 @@ export type AssetMinAggregateInputType = {
   storagePath?: true
   publicUrl?: true
   redirectUrl?: true
-  startDate?: true
-  endDate?: true
+  ruleId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,8 +104,7 @@ export type AssetMaxAggregateInputType = {
   storagePath?: true
   publicUrl?: true
   redirectUrl?: true
-  startDate?: true
-  endDate?: true
+  ruleId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -122,8 +117,7 @@ export type AssetCountAggregateInputType = {
   storagePath?: true
   publicUrl?: true
   redirectUrl?: true
-  startDate?: true
-  endDate?: true
+  ruleId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -223,8 +217,7 @@ export type AssetGroupByOutputType = {
   storagePath: string
   publicUrl: string
   redirectUrl: string | null
-  startDate: Date | null
-  endDate: Date | null
+  ruleId: string | null
   createdAt: Date
   updatedAt: Date
   _count: AssetCountAggregateOutputType | null
@@ -260,10 +253,10 @@ export type AssetWhereInput = {
   storagePath?: Prisma.StringFilter<"Asset"> | string
   publicUrl?: Prisma.StringFilter<"Asset"> | string
   redirectUrl?: Prisma.StringNullableFilter<"Asset"> | string | null
-  startDate?: Prisma.DateTimeNullableFilter<"Asset"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"Asset"> | Date | string | null
+  ruleId?: Prisma.StringNullableFilter<"Asset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+  rule?: Prisma.XOR<Prisma.DistributionRuleNullableScalarRelationFilter, Prisma.DistributionRuleWhereInput> | null
   clicks?: Prisma.ClickListRelationFilter
 }
 
@@ -275,10 +268,10 @@ export type AssetOrderByWithRelationInput = {
   storagePath?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   redirectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  ruleId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  rule?: Prisma.DistributionRuleOrderByWithRelationInput
   clicks?: Prisma.ClickOrderByRelationAggregateInput
 }
 
@@ -293,10 +286,10 @@ export type AssetWhereUniqueInput = Prisma.AtLeast<{
   mimetype?: Prisma.StringFilter<"Asset"> | string
   size?: Prisma.IntFilter<"Asset"> | number
   redirectUrl?: Prisma.StringNullableFilter<"Asset"> | string | null
-  startDate?: Prisma.DateTimeNullableFilter<"Asset"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableFilter<"Asset"> | Date | string | null
+  ruleId?: Prisma.StringNullableFilter<"Asset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+  rule?: Prisma.XOR<Prisma.DistributionRuleNullableScalarRelationFilter, Prisma.DistributionRuleWhereInput> | null
   clicks?: Prisma.ClickListRelationFilter
 }, "id" | "storagePath" | "publicUrl">
 
@@ -308,8 +301,7 @@ export type AssetOrderByWithAggregationInput = {
   storagePath?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   redirectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  startDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  endDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  ruleId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AssetCountOrderByAggregateInput
@@ -330,8 +322,7 @@ export type AssetScalarWhereWithAggregatesInput = {
   storagePath?: Prisma.StringWithAggregatesFilter<"Asset"> | string
   publicUrl?: Prisma.StringWithAggregatesFilter<"Asset"> | string
   redirectUrl?: Prisma.StringNullableWithAggregatesFilter<"Asset"> | string | null
-  startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Asset"> | Date | string | null
-  endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Asset"> | Date | string | null
+  ruleId?: Prisma.StringNullableWithAggregatesFilter<"Asset"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Asset"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Asset"> | Date | string
 }
@@ -344,10 +335,9 @@ export type AssetCreateInput = {
   storagePath: string
   publicUrl: string
   redirectUrl?: string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  rule?: Prisma.DistributionRuleCreateNestedOneWithoutAssetsInput
   clicks?: Prisma.ClickCreateNestedManyWithoutAssetInput
 }
 
@@ -359,8 +349,7 @@ export type AssetUncheckedCreateInput = {
   storagePath: string
   publicUrl: string
   redirectUrl?: string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  ruleId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   clicks?: Prisma.ClickUncheckedCreateNestedManyWithoutAssetInput
@@ -374,10 +363,9 @@ export type AssetUpdateInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rule?: Prisma.DistributionRuleUpdateOneWithoutAssetsNestedInput
   clicks?: Prisma.ClickUpdateManyWithoutAssetNestedInput
 }
 
@@ -389,8 +377,7 @@ export type AssetUncheckedUpdateInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ruleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   clicks?: Prisma.ClickUncheckedUpdateManyWithoutAssetNestedInput
@@ -404,8 +391,7 @@ export type AssetCreateManyInput = {
   storagePath: string
   publicUrl: string
   redirectUrl?: string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  ruleId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -418,8 +404,6 @@ export type AssetUpdateManyMutationInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -432,8 +416,7 @@ export type AssetUncheckedUpdateManyInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ruleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -446,8 +429,7 @@ export type AssetCountOrderByAggregateInput = {
   storagePath?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   redirectUrl?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  ruleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -464,8 +446,7 @@ export type AssetMaxOrderByAggregateInput = {
   storagePath?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   redirectUrl?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  ruleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -478,8 +459,7 @@ export type AssetMinOrderByAggregateInput = {
   storagePath?: Prisma.SortOrder
   publicUrl?: Prisma.SortOrder
   redirectUrl?: Prisma.SortOrder
-  startDate?: Prisma.SortOrder
-  endDate?: Prisma.SortOrder
+  ruleId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -491,6 +471,16 @@ export type AssetSumOrderByAggregateInput = {
 export type AssetScalarRelationFilter = {
   is?: Prisma.AssetWhereInput
   isNot?: Prisma.AssetWhereInput
+}
+
+export type AssetListRelationFilter = {
+  every?: Prisma.AssetWhereInput
+  some?: Prisma.AssetWhereInput
+  none?: Prisma.AssetWhereInput
+}
+
+export type AssetOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -507,10 +497,6 @@ export type IntFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -531,6 +517,48 @@ export type AssetUpdateOneRequiredWithoutClicksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssetUpdateToOneWithWhereWithoutClicksInput, Prisma.AssetUpdateWithoutClicksInput>, Prisma.AssetUncheckedUpdateWithoutClicksInput>
 }
 
+export type AssetCreateNestedManyWithoutRuleInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput> | Prisma.AssetCreateWithoutRuleInput[] | Prisma.AssetUncheckedCreateWithoutRuleInput[]
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRuleInput | Prisma.AssetCreateOrConnectWithoutRuleInput[]
+  createMany?: Prisma.AssetCreateManyRuleInputEnvelope
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+}
+
+export type AssetUncheckedCreateNestedManyWithoutRuleInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput> | Prisma.AssetCreateWithoutRuleInput[] | Prisma.AssetUncheckedCreateWithoutRuleInput[]
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRuleInput | Prisma.AssetCreateOrConnectWithoutRuleInput[]
+  createMany?: Prisma.AssetCreateManyRuleInputEnvelope
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+}
+
+export type AssetUpdateManyWithoutRuleNestedInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput> | Prisma.AssetCreateWithoutRuleInput[] | Prisma.AssetUncheckedCreateWithoutRuleInput[]
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRuleInput | Prisma.AssetCreateOrConnectWithoutRuleInput[]
+  upsert?: Prisma.AssetUpsertWithWhereUniqueWithoutRuleInput | Prisma.AssetUpsertWithWhereUniqueWithoutRuleInput[]
+  createMany?: Prisma.AssetCreateManyRuleInputEnvelope
+  set?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  disconnect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  delete?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  update?: Prisma.AssetUpdateWithWhereUniqueWithoutRuleInput | Prisma.AssetUpdateWithWhereUniqueWithoutRuleInput[]
+  updateMany?: Prisma.AssetUpdateManyWithWhereWithoutRuleInput | Prisma.AssetUpdateManyWithWhereWithoutRuleInput[]
+  deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[]
+}
+
+export type AssetUncheckedUpdateManyWithoutRuleNestedInput = {
+  create?: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput> | Prisma.AssetCreateWithoutRuleInput[] | Prisma.AssetUncheckedCreateWithoutRuleInput[]
+  connectOrCreate?: Prisma.AssetCreateOrConnectWithoutRuleInput | Prisma.AssetCreateOrConnectWithoutRuleInput[]
+  upsert?: Prisma.AssetUpsertWithWhereUniqueWithoutRuleInput | Prisma.AssetUpsertWithWhereUniqueWithoutRuleInput[]
+  createMany?: Prisma.AssetCreateManyRuleInputEnvelope
+  set?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  disconnect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  delete?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  connect?: Prisma.AssetWhereUniqueInput | Prisma.AssetWhereUniqueInput[]
+  update?: Prisma.AssetUpdateWithWhereUniqueWithoutRuleInput | Prisma.AssetUpdateWithWhereUniqueWithoutRuleInput[]
+  updateMany?: Prisma.AssetUpdateManyWithWhereWithoutRuleInput | Prisma.AssetUpdateManyWithWhereWithoutRuleInput[]
+  deleteMany?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[]
+}
+
 export type AssetCreateWithoutClicksInput = {
   id?: string
   filename: string
@@ -539,10 +567,9 @@ export type AssetCreateWithoutClicksInput = {
   storagePath: string
   publicUrl: string
   redirectUrl?: string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  rule?: Prisma.DistributionRuleCreateNestedOneWithoutAssetsInput
 }
 
 export type AssetUncheckedCreateWithoutClicksInput = {
@@ -553,8 +580,7 @@ export type AssetUncheckedCreateWithoutClicksInput = {
   storagePath: string
   publicUrl: string
   redirectUrl?: string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
+  ruleId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -583,10 +609,9 @@ export type AssetUpdateWithoutClicksInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rule?: Prisma.DistributionRuleUpdateOneWithoutAssetsNestedInput
 }
 
 export type AssetUncheckedUpdateWithoutClicksInput = {
@@ -597,8 +622,125 @@ export type AssetUncheckedUpdateWithoutClicksInput = {
   storagePath?: Prisma.StringFieldUpdateOperationsInput | string
   publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
   redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ruleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AssetCreateWithoutRuleInput = {
+  id?: string
+  filename: string
+  mimetype: string
+  size: number
+  storagePath: string
+  publicUrl: string
+  redirectUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clicks?: Prisma.ClickCreateNestedManyWithoutAssetInput
+}
+
+export type AssetUncheckedCreateWithoutRuleInput = {
+  id?: string
+  filename: string
+  mimetype: string
+  size: number
+  storagePath: string
+  publicUrl: string
+  redirectUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clicks?: Prisma.ClickUncheckedCreateNestedManyWithoutAssetInput
+}
+
+export type AssetCreateOrConnectWithoutRuleInput = {
+  where: Prisma.AssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput>
+}
+
+export type AssetCreateManyRuleInputEnvelope = {
+  data: Prisma.AssetCreateManyRuleInput | Prisma.AssetCreateManyRuleInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssetUpsertWithWhereUniqueWithoutRuleInput = {
+  where: Prisma.AssetWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssetUpdateWithoutRuleInput, Prisma.AssetUncheckedUpdateWithoutRuleInput>
+  create: Prisma.XOR<Prisma.AssetCreateWithoutRuleInput, Prisma.AssetUncheckedCreateWithoutRuleInput>
+}
+
+export type AssetUpdateWithWhereUniqueWithoutRuleInput = {
+  where: Prisma.AssetWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssetUpdateWithoutRuleInput, Prisma.AssetUncheckedUpdateWithoutRuleInput>
+}
+
+export type AssetUpdateManyWithWhereWithoutRuleInput = {
+  where: Prisma.AssetScalarWhereInput
+  data: Prisma.XOR<Prisma.AssetUpdateManyMutationInput, Prisma.AssetUncheckedUpdateManyWithoutRuleInput>
+}
+
+export type AssetScalarWhereInput = {
+  AND?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[]
+  OR?: Prisma.AssetScalarWhereInput[]
+  NOT?: Prisma.AssetScalarWhereInput | Prisma.AssetScalarWhereInput[]
+  id?: Prisma.StringFilter<"Asset"> | string
+  filename?: Prisma.StringFilter<"Asset"> | string
+  mimetype?: Prisma.StringFilter<"Asset"> | string
+  size?: Prisma.IntFilter<"Asset"> | number
+  storagePath?: Prisma.StringFilter<"Asset"> | string
+  publicUrl?: Prisma.StringFilter<"Asset"> | string
+  redirectUrl?: Prisma.StringNullableFilter<"Asset"> | string | null
+  ruleId?: Prisma.StringNullableFilter<"Asset"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Asset"> | Date | string
+}
+
+export type AssetCreateManyRuleInput = {
+  id?: string
+  filename: string
+  mimetype: string
+  size: number
+  storagePath: string
+  publicUrl: string
+  redirectUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AssetUpdateWithoutRuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  mimetype?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clicks?: Prisma.ClickUpdateManyWithoutAssetNestedInput
+}
+
+export type AssetUncheckedUpdateWithoutRuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  mimetype?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clicks?: Prisma.ClickUncheckedUpdateManyWithoutAssetNestedInput
+}
+
+export type AssetUncheckedUpdateManyWithoutRuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  mimetype?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  storagePath?: Prisma.StringFieldUpdateOperationsInput | string
+  publicUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  redirectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -642,10 +784,10 @@ export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   storagePath?: boolean
   publicUrl?: boolean
   redirectUrl?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  ruleId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
   clicks?: boolean | Prisma.Asset$clicksArgs<ExtArgs>
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
@@ -658,10 +800,10 @@ export type AssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   storagePath?: boolean
   publicUrl?: boolean
   redirectUrl?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  ruleId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
 
 export type AssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -672,10 +814,10 @@ export type AssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   storagePath?: boolean
   publicUrl?: boolean
   redirectUrl?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  ruleId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
 
 export type AssetSelectScalar = {
@@ -686,23 +828,28 @@ export type AssetSelectScalar = {
   storagePath?: boolean
   publicUrl?: boolean
   redirectUrl?: boolean
-  startDate?: boolean
-  endDate?: boolean
+  ruleId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "mimetype" | "size" | "storagePath" | "publicUrl" | "redirectUrl" | "startDate" | "endDate" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
+export type AssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "mimetype" | "size" | "storagePath" | "publicUrl" | "redirectUrl" | "ruleId" | "createdAt" | "updatedAt", ExtArgs["result"]["asset"]>
 export type AssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
   clicks?: boolean | Prisma.Asset$clicksArgs<ExtArgs>
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type AssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type AssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
+}
+export type AssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  rule?: boolean | Prisma.Asset$ruleArgs<ExtArgs>
+}
 
 export type $AssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Asset"
   objects: {
+    rule: Prisma.$DistributionRulePayload<ExtArgs> | null
     clicks: Prisma.$ClickPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -713,8 +860,7 @@ export type $AssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     storagePath: string
     publicUrl: string
     redirectUrl: string | null
-    startDate: Date | null
-    endDate: Date | null
+    ruleId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["asset"]>
@@ -1111,6 +1257,7 @@ readonly fields: AssetFieldRefs;
  */
 export interface Prisma__AssetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  rule<T extends Prisma.Asset$ruleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Asset$ruleArgs<ExtArgs>>): Prisma.Prisma__DistributionRuleClient<runtime.Types.Result.GetResult<Prisma.$DistributionRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   clicks<T extends Prisma.Asset$clicksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Asset$clicksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1148,8 +1295,7 @@ export interface AssetFieldRefs {
   readonly storagePath: Prisma.FieldRef<"Asset", 'String'>
   readonly publicUrl: Prisma.FieldRef<"Asset", 'String'>
   readonly redirectUrl: Prisma.FieldRef<"Asset", 'String'>
-  readonly startDate: Prisma.FieldRef<"Asset", 'DateTime'>
-  readonly endDate: Prisma.FieldRef<"Asset", 'DateTime'>
+  readonly ruleId: Prisma.FieldRef<"Asset", 'String'>
   readonly createdAt: Prisma.FieldRef<"Asset", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Asset", 'DateTime'>
 }
@@ -1401,6 +1547,10 @@ export type AssetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.AssetCreateManyInput | Prisma.AssetCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1471,6 +1621,10 @@ export type AssetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Assets to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1537,6 +1691,25 @@ export type AssetDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Assets to delete.
    */
   limit?: number
+}
+
+/**
+ * Asset.rule
+ */
+export type Asset$ruleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DistributionRule
+   */
+  select?: Prisma.DistributionRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DistributionRule
+   */
+  omit?: Prisma.DistributionRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DistributionRuleInclude<ExtArgs> | null
+  where?: Prisma.DistributionRuleWhereInput
 }
 
 /**

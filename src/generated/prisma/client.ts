@@ -49,3 +49,8 @@ export type Asset = Prisma.AssetModel
  * 
  */
 export type Click = Prisma.ClickModel
+/**
+ * Model DistributionRule
+ * 
+ */
+export type DistributionRule = Prisma.DistributionRuleModel
